@@ -1,0 +1,18 @@
+services:
+  redis:
+    image: redis:7.4.1-alpine
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: >
+      sh -c "rye sync &&
+             rye run python manage.py migrate --noinput &&
+             rye run python manage.py runserver 0.0.0.0:8000"
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/code
+    depends_on:
+      redis:
+        condition: service_started

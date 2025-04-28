@@ -1,0 +1,7 @@
+<div class="flex items-center p-4 border rounded text-xs font-medium uppercase text-gray-900 {{ final_class }}">
+    {% slot "content" %}
+        {% slot "message_svg" %}
+        {% endslot %}
+        {{ text }}
+    {% endslot %}
+</div>

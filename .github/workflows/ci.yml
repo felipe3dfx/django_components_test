@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+concurrency:
+  group: ${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code Repository
+        uses: actions/checkout@v4
+      - name: Cache rye environment
+        uses: actions/cache@v4
+        with:
+          path: ${{ github.workspace }}/.venv/
+          key: rye|venv|${{ hashFiles('pyproject.toml') }}
+      - name: Install the latest version of rye
+        uses: eifinger/setup-rye@v4
+      - name: Run tests
+        shell: bash
+        run: |
+          set -o pipefail
+          rye sync --no-lock
+          rye run pytest --color=yes --junitxml=junit/report.xml

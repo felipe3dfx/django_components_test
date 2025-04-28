@@ -1,0 +1,14 @@
+[run]
+omit =
+  app/asgi.py
+  app/local_settings.py
+  app/settings.py
+  app/test_settings.py
+  conftest.py
+  manage.py
+
+
+  app/templatetags/*
+
+  */apps.py
+  */migrations/*

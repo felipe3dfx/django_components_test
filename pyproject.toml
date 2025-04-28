@@ -1,0 +1,155 @@
+[project]
+name = "django-components-test"
+version = "0.1.0"
+description = "Add your description here"
+authors = [
+    { name = "Felipe Gonzalez", email = "felipe.gonzalez@grupoilao.com" }
+]
+dependencies = [
+    "django>=5.2",
+    "djangorestframework>=3.16.0",
+    "django-components>=0.139.1",
+    "drf-spectacular>=0.28.0",
+    "pytest>=8.3.5",
+    "djangorestframework-simplejwt>=5.5.0",
+    "drf-extensions>=0.8.0",
+    "pytest-socket>=0.7.0",
+    "pytest-xdist>=3.6.1",
+    "pytest-django>=4.11.1",
+    "pytest-cov>=6.1.1",
+]
+readme = "README.md"
+requires-python = ">= 3.8"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.rye]
+virtual = true
+universal = true
+dev-dependencies = []
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/django_components_test"]
+
+
+[tool.rye.behavior]
+autosync = false
+use-uv = true
+global-python = true
+
+[tool.ruff]
+target-version = "py312"
+fix = true
+line-length = 100
+show-fixes = true
+
+[tool.ruff.lint]
+fixable = ["ALL"]
+ignore = [
+    "A003",
+    "RUF005",
+    "N999",
+    "RUF012",
+    "ERA001",
+    "Q001",
+    "COM812",
+    "ANN202",
+    "D100",
+    "D102",
+    "D106",
+    "D105",
+    "D107",
+    "FIX002",
+    "DTZ005",
+    "DTZ006",
+]
+select = ["ALL"]
+
+exclude = [
+    ".git",
+    ".mypy_cache",
+    ".ruff_cache",
+    "build",
+    "dist",
+    "node_modules",
+    "migrations",
+    "sitecustomize.py",
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".ipynb_checkpoints",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pyenv",
+    ".pytest_cache",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    ".vscode",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "site-packages",
+    "venv",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["E402"]
+"**/{tests,docs,tools,templatetags,components,commands}/*" = ["D100", "D101", "D102", "D103", "D201", "D203", "ANN", "S101", "ARG001", "ARG002", "INP001"]
+"**/{usecases}/*" = ["D100", "D101", "D102", "D103", "ANN", "ARG002"]
+"{forms.py,models.py,utils.py,tasks.py,views.py,mixins.py,usecases.py,managers.py,data.py,uvicorn_class.py,conftest.py,test_utils.py,**/views/*}" = ["D100", "D101", "D102", "D103", "ANN", "ARG002"]
+"{forms.py,models.py,views.py,apps.py,admin.py,signals.py,manage.py,context_processors.py,serializers.py}" = ["D100", "D101", "D102", "D103", "ANN", "ARG001", "ARG002"]
+"{__init__.py}" = ["F401", "D104"]
+"**/{tests}/*" = ["ARG005", "S311", "PLR0913","ARG001","S106"]
+"{factories.py,conftest.py,test_utils.py,settings.py}" = ["ARG005", "S311", "PLR0913","ARG001","S106"]
+"local_settings.py" = ["S105"]
+
+[tool.ruff.format]
+quote-style = "single"
+indent-style = "space"
+docstring-code-format = true
+line-ending = "auto"
+skip-magic-trailing-comma = false
+docstring-code-line-length = "dynamic"
+preview = true
+
+[tool.ruff.lint.isort]
+combine-as-imports = true
+force-single-line = false
+
+[tool.ruff.lint.flake8-quotes]
+inline-quotes = "single"
+multiline-quotes = "single"
+docstring-quotes = "double"
+avoid-escape = false
+
+
+[tool.ruff.lint.pylint]
+allow-magic-value-types = ["int", "str", "bytes", "float"]
+max-args = 10
+
+[tool.ruff.lint.mccabe]
+max-complexity = 13
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "django_components_test.settings"
+norecursedirs = "assets static uploads .git node_modules htmlcov .tox .cache .pnpm-store"
+python_files = "tests.py *_tests.py"
+addopts = "--maxfail=1 -rf -s --nomigrations --cov=. --cov-report=html --cov-report=term --cov-report=xml --numprocesses=auto --dist loadgroup --reuse-db --disable-socket"
+
+[tool.coverage.run]
+omit = ["*/migrations/*", "*/tests/*"]
